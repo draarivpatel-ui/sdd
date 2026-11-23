@@ -20,9 +20,9 @@ There are three kinds of skill. Most of your time is the **backbone** — a stra
 walk in order. A few are **utilities** you call whenever you need them. Two **close the loop**
 after the code is written.
 
-![SDD flow: backbone, utilities, close the loop](docs/flow-grid.svg)
+![SDD flow: backbone, utilities, close the loop](docs/flow-labeled.svg)
 
-Source: [`docs/flow.dot`](docs/flow.dot) (Graphviz). Re-render with `neato -n2 -Tsvg docs/flow.dot -o docs/flow-grid.svg`.
+Source: [`docs/flow.dot`](docs/flow.dot) (Graphviz). Re-render with `neato -n2 -Tsvg docs/flow.dot -o docs/flow-labeled.svg`.
 
 ## Install
 
