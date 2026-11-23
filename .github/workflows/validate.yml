@@ -35,6 +35,36 @@ jobs:
           bash -n install.sh
           shellcheck install.sh
 
+  # Every non-merge commit in a pull request must carry a Signed-off-by line (DCO, see
+  # CONTRIBUTING.md). Bot-authored commits are exempt. Same check as flisk-sh/flisk ci.yml.
+  dco:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: DCO sign-off
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          failed=0
+          for sha in $(git rev-list --no-merges "$BASE_SHA..$HEAD_SHA"); do
+            author=$(git log -1 --format='%an' "$sha")
+            case "$author" in *"[bot]") continue ;; esac
+            if ! git log -1 --format='%B' "$sha" | grep -qE '^Signed-off-by: .+ <.+>$'; then
+              echo "::error::Commit $sha is missing a Signed-off-by line"
+              failed=1
+            fi
+          done
+          if [[ "$failed" -ne 0 ]]; then
+            echo "Add a sign-off with: git commit --amend -s (or git rebase --signoff $BASE_SHA)"
+            exit 1
+          fi
+
   # matrix incl. macos-latest: BSD sed/find/wc differ from GNU — a cheap guard against
   # installer regressions that only bite on a Mac.
   smoke-install:

@@ -1,4 +1,6 @@
 {
+  "status": "active",
+  "owner": "@odykyi",
   "mode": "block",
   "guards": {
     "secret-scan": "block",
@@ -35,5 +37,10 @@
     "change-verified": "block",
     "perf-budget": "block",
     "risk-history": "block"
+  },
+  "queue": {
+    "main_duplicates": {
+      "gel.yml": "no merge queue on this repo yet; the push to main is the only whole-tree scan main gets"
+    }
   }
 }
