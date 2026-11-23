@@ -20,32 +20,9 @@ There are three kinds of skill. Most of your time is the **backbone** — a stra
 walk in order. A few are **utilities** you call whenever you need them. Two **close the loop**
 after the code is written.
 
-```mermaid
-flowchart LR
-    IV[interview<br/>optional] -->|docs/idea-brief.md| SV[survey<br/>once per repo]
-    SV -->|docs/architecture-map.md| RM[roadmap<br/>decomposition]
-    RM -->|greenfield: step 1| SC[scaffold] --> S
-    SV -.->|greenfield, no brief| SC
-    RM -.->|per step| S
-    IV -.-> S
-    SV -.->|brownfield| S
-    DS[design-system<br/>once per repo, UI] -.-> UX
-    subgraph backbone["BACKBONE — run in order"]
-        S[specify] --> CL[clarify] --> UX[ux-flows<br/>UI features] --> D[design] --> SQ[sequences] --> DM[data-model] --> API[api] --> SCR[screens<br/>UI features] --> T[tasks] --> PT[plan-tests] --> IM[implement]
-        CL -.->|no UI| D
-        API -.->|no UI| T
-    end
-    IM --> RV[review] --> SH[ship]
-    subgraph util["UTILITIES — call anytime"]
-        CFG[config]
-        CS[classify-size]
-        GL[glossary]
-        ADR[decide-adr]
-        FX[fix]
-    end
-    CL -.-> GL -.-> D
-    SH --> done([shipped: PR + changelog])
-```
+![SDD flow: backbone, utilities, close the loop](docs/flow.svg)
+
+Source: [`docs/flow.dot`](docs/flow.dot) (Graphviz). Re-render with `dot -Tsvg docs/flow.dot -o docs/flow.svg`.
 
 ## Install
 
