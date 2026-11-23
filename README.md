@@ -3,7 +3,7 @@
 > **Origin.** Started as a copy of [genkovich/sdd](https://github.com/genkovich/sdd) (MIT), see [NOTICE.md](NOTICE.md). This repo adapts the flow to how Flisk works: GEL guards, DCO sign-off, merge queue, contributor PRs.
 
 A self-contained Claude Code plugin that carries a feature from a one-line idea to
-**reviewed, verified, shipped** code through **23 atomic, stack-agnostic skills** and a
+**reviewed, verified, shipped** code through **24 atomic, stack-agnostic skills** and a
 **TDD implementation engine** — with a living decomposition roadmap above the per-feature flow and a
 **design pipeline** (design-system · ux-flows · screens) for UI features.
 
@@ -161,6 +161,23 @@ whole-change check a human reviewer would do; `ship` runs the feature for real.
 - **fix** — the bugfix entry point: reproduce, trace the symptom to the spec's acceptance
   criteria, pin it with a failing test, apply the minimal fix through the same gate `implement`
   runs, then patch the spec. Works on a repo with no specs at all.
+
+## Autopilot — walk the whole line on a loop
+
+`/sdd:autopilot <slug>` starts a fixed-interval `/loop` and does the `/clear` + next-command dance
+for you. Every tick reads `docs/features/<slug>/` from disk, finds the next stage, runs it in a fresh
+subagent, answers routine questions with the recommended option, and logs each decision to
+`docs/features/<slug>/_autopilot/log.md` so you can overrule it in review. It stops on a product
+decision (it never answers those), on a stage that fails its self-check twice, or when `ship` has the
+PR ready. It never merges, and it pushes only if you said yes in its one up-front question.
+
+```text
+/sdd:autopilot checkout-discounts                       # idea → PR, one question up front
+/sdd:autopilot checkout-discounts --stop-after=tasks    # stop before any code is written
+```
+
+Cancel it any time with `CronList` / `CronDelete`. The stage map and state files are in
+[`skills/autopilot/references/stage-map.md`](./skills/autopilot/references/stage-map.md).
 
 ## Above a single feature
 
