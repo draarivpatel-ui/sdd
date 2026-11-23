@@ -2,57 +2,73 @@
 // Render: dot -Tsvg docs/flow.dot -o docs/flow.svg
 digraph sdd {
   rankdir=TB;
-  nodesep=0.4; ranksep=0.45; newrank=true;
-  fontname="Helvetica"; fontsize=26;
-  node [shape=box, style="rounded,filled", fillcolor="#ffffff", fontname="Helvetica", fontsize=24, margin="0.35,0.15"];
-  edge [fontname="Helvetica", fontsize=20, penwidth=1.6];
+  nodesep=0.45; ranksep=0.5; newrank=true; pad=0.4; bgcolor="white";
+  label=<<B>SDD: from idea to shipped code</B><BR/><FONT POINT-SIZE="20" COLOR="#555555">walk the backbone in order · call utilities anytime · close the loop after the code</FONT>>;
+  labelloc=t; fontname="Helvetica"; fontsize=34;
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=24, margin="0.4,0.18", penwidth=2];
+  edge [fontname="Helvetica", fontsize=19, penwidth=2, color="#555555", fontcolor="#555555"];
 
-  // entry: once per idea / repo
+  // START
   subgraph cluster_entry {
-    label="START: once per idea or repo"; labeljust=l;
-    style="rounded,filled"; fillcolor="#f3f0ff"; color="#8b7bd0";
-    interview [label="interview (optional)"];
-    survey    [label="survey"];
-    roadmap   [label="roadmap (optional)"];
+    label="🌱 START · once per idea or repo"; labeljust=l; fontsize=24; fontname="Helvetica-Bold";
+    style="rounded,filled"; fillcolor="#f3f0ff"; color="#8b7bd0"; penwidth=2;
+    node [fillcolor="#e4defa", color="#8b7bd0"];
+    interview [label="🎤  interview  (optional)"];
+    survey    [label="🗺️  survey"];
+    roadmap   [label="🧭  roadmap  (optional)"];
     interview -> survey [label="  idea-brief.md"];
     survey -> roadmap   [label="  architecture-map.md"];
   }
-  scaffold [label="scaffold (greenfield)"];
+  scaffold [label="🏗️  scaffold  (greenfield)", fillcolor="#e4defa", color="#8b7bd0"];
   roadmap -> scaffold [style=dashed];
   roadmap -> specify  [label="  per step"];
   scaffold -> specify;
 
-  // backbone: one straight line
+  // BACKBONE
   subgraph cluster_backbone {
-    label="BACKBONE: run in order"; labeljust=l;
-    style="rounded,filled"; fillcolor="#eef4ff"; color="#6b8cce";
-    specify; clarify;
-    uxflows [label="ux-flows (UI only)"];
-    design; sequences; datamodel [label="data-model"]; api;
-    screens [label="screens (UI only)"];
-    tasks; plantests [label="plan-tests"]; implement;
+    label="🚶 BACKBONE · run in order"; labeljust=l; fontsize=24; fontname="Helvetica-Bold";
+    style="rounded,filled"; fillcolor="#eef4ff"; color="#4a74c9"; penwidth=2;
+    node [fillcolor="#cfe0ff", color="#4a74c9"];
+    specify   [label="📝  specify"];
+    clarify   [label="❓  clarify"];
+    uxflows   [label="🧑‍💻  ux-flows  (UI only)"];
+    design    [label="📐  design"];
+    sequences [label="🔀  sequences"];
+    datamodel [label="🗄️  data-model"];
+    api       [label="🔌  api"];
+    screens   [label="🖼️  screens  (UI only)"];
+    tasks     [label="✅  tasks"];
+    plantests [label="🧪  plan-tests"];
+    implement [label="⚙️  implement  (TDD)"];
     specify -> clarify -> uxflows -> design -> sequences -> datamodel -> api -> screens -> tasks -> plantests -> implement;
   }
+  designsys [label="🎨  design-system\n(UI, once per repo)", fillcolor="#e4defa", color="#8b7bd0"];
+  designsys -> uxflows [style=dashed];
 
-  // close the loop
+  // CLOSE THE LOOP
   subgraph cluster_close {
-    label="CLOSE THE LOOP: after the code is written"; labeljust=l;
-    style="rounded,filled"; fillcolor="#effaf0"; color="#6bb27a";
-    review; ship;
+    label="🔁 CLOSE THE LOOP · after the code is written"; labeljust=l; fontsize=24; fontname="Helvetica-Bold";
+    style="rounded,filled"; fillcolor="#effaf0"; color="#3f9b52"; penwidth=2;
+    node [fillcolor="#c9eed1", color="#3f9b52"];
+    review [label="🔍  review"];
+    ship   [label="🚀  ship"];
   }
   implement -> review -> ship;
   review -> implement [style=dotted, constraint=false, label="  loop back"];
-  done [label="shipped: PR + changelog", shape=box, style="rounded,filled", fillcolor="#d8f3dc"];
+  done [label="🎉  shipped: PR + changelog", fillcolor="#3f9b52", color="#2b7a3c", fontcolor="white"];
   ship -> done;
 
-  // utilities: call anytime, beside the backbone
+  // UTILITIES
   subgraph cluster_util {
-    label="UTILITIES: call anytime"; labeljust=l;
-    style="rounded,filled"; fillcolor="#fff7e6"; color="#d9a441";
-    config; classifysize [label="classify-size"]; glossary; decideadr [label="decide-adr"]; fix;
+    label="🧰 UTILITIES · call anytime"; labeljust=l; fontsize=24; fontname="Helvetica-Bold";
+    style="rounded,filled"; fillcolor="#fff7e6"; color="#d9a441"; penwidth=2;
+    node [fillcolor="#ffe8b8", color="#d9a441"];
+    config       [label="⚙️  config"];
+    classifysize [label="📏  classify-size"];
+    glossary     [label="📖  glossary"];
+    decideadr    [label="⚖️  decide-adr"];
+    fix          [label="🔧  fix"];
     config -> classifysize -> glossary -> decideadr -> fix [style=invis];
   }
-  designsys [label="design-system\n(UI, once per repo)"];
-  designsys -> uxflows [style=dashed];
   { rank=same; specify; config; }
 }
