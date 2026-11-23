@@ -1,0 +1,60 @@
+// The SDD flow: backbone (run in order), utilities (call anytime), close the loop.
+// Render: dot -Tsvg docs/flow.dot -o docs/flow.svg
+digraph sdd {
+  rankdir=LR;
+  fontname="Helvetica";
+  node  [shape=box, style="rounded,filled", fillcolor="#ffffff", fontname="Helvetica", fontsize=11];
+  edge  [fontname="Helvetica", fontsize=9];
+
+  // --- entry skills, once per idea / repo ---
+  interview   [label="interview\n(optional)"];
+  survey      [label="survey\n(once per repo)"];
+  roadmap     [label="roadmap\n(decomposition)"];
+  scaffold    [label="scaffold"];
+  designsys   [label="design-system\n(once per repo, UI)"];
+
+  interview -> survey  [label="docs/idea-brief.md"];
+  survey    -> roadmap [label="docs/architecture-map.md"];
+  roadmap   -> scaffold [label="greenfield: step 1"];
+  survey    -> scaffold [style=dashed, label="greenfield, no brief"];
+  scaffold  -> specify;
+  roadmap   -> specify  [style=dashed, label="per step"];
+  interview -> specify  [style=dashed];
+  survey    -> specify  [style=dashed, label="brownfield"];
+  designsys -> "ux-flows" [style=dashed];
+
+  // --- backbone ---
+  subgraph cluster_backbone {
+    label="BACKBONE: run in order";
+    style="rounded,filled"; fillcolor="#eef4ff"; color="#6b8cce";
+
+    specify; clarify; "ux-flows" [label="ux-flows\n(UI features)"];
+    design; sequences; "data-model"; api;
+    screens [label="screens\n(UI features)"];
+    tasks; "plan-tests"; implement;
+
+    specify -> clarify -> "ux-flows" -> design -> sequences -> "data-model" -> api -> screens -> tasks -> "plan-tests" -> implement;
+    clarify -> design [style=dashed, label="no UI"];
+    api     -> tasks  [style=dashed, label="no UI"];
+  }
+
+  // --- close the loop ---
+  subgraph cluster_close {
+    label="CLOSE THE LOOP: after the code is written";
+    style="rounded,filled"; fillcolor="#effaf0"; color="#6bb27a";
+    review; ship;
+  }
+  implement -> review -> ship;
+  review -> implement [style=dotted, constraint=false, label="loop back"];
+  done [label="shipped:\nPR + changelog", shape=oval, fillcolor="#d8f3dc"];
+  ship -> done;
+
+  // --- utilities ---
+  subgraph cluster_util {
+    label="UTILITIES: call anytime";
+    style="rounded,filled"; fillcolor="#fff7e6"; color="#d9a441";
+    config; "classify-size"; glossary; "decide-adr"; fix;
+  }
+  clarify  -> glossary [style=dashed];
+  glossary -> design   [style=dashed];
+}
