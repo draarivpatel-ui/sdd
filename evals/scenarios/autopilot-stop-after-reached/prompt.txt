@@ -1,0 +1,7 @@
+/sdd:autopilot tiny-toggle --stop-after=tasks
+
+Standing answers: stop_after=tasks, push_and_pr=no, depth=easy.
+
+Headless eval run — there is NO interactive user; never call AskUserQuestion. The `loop` skill and
+any scheduler are NOT available in this run: do not call loop or CronCreate. Perform exactly ONE tick
+of the autopilot protocol ("Each tick") and then stop. Follow the autopilot skill as written.
