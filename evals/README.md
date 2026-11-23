@@ -69,6 +69,18 @@ fails, or a plugin instruction read is denied.
 | `interview-critic-grounded` | Explicit interview mode returns at most three grounded risk findings, not an invented breach or a legacy quota |
 | `specify-brief-reuse` | Specify preserves the accepted brief and asks no repeated discovery, while retaining source limits |
 
+## Autopilot scenarios
+
+A headless run has no scheduler, so these drive **exactly one tick** and check the decisions a tick
+makes. They do **not** prove the real `/loop` start, the cron job or repeated ticks; check those by
+hand with `/sdd:autopilot <slug>` in a throwaway repo and `CronList` / `CronDelete`.
+
+| Scenario | What it proves |
+|---|---|
+| `autopilot-gate-refusal` | With no idea brief and no spec, autopilot refuses, names `interview`, and writes no state, artifact or job |
+| `autopilot-stop-after-reached` | With `--stop-after=tasks` and tasks already on disk, the tick ends DONE without running `implement`, `review` or `ship`, and leaves upstream artifacts byte-identical |
+| `autopilot-asks-product-decision` | A product-decision open question stops the line in state ASK, is logged for the user, and is never answered by the loop |
+
 The helper scenarios exercise agent instructions directly, not a headless interview. They use
 local fixtures and disable external research. `interview-headless-no-writes` tests refusal only;
 prewritten answers do not simulate a live human. For actual adaptive questioning, use
