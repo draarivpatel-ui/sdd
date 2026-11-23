@@ -22,7 +22,7 @@ after the code is written.
 
 ![SDD flow: backbone, utilities, close the loop](docs/flow.svg)
 
-Source: [`docs/flow.dot`](docs/flow.dot) (Graphviz). Re-render with `dot -Tsvg docs/flow.dot -o docs/flow.svg`.
+Source: [`docs/flow.dot`](docs/flow.dot) (Graphviz). Re-render with `neato -n2 -Tsvg docs/flow.dot -o docs/flow.svg`.
 
 ## Install
 
