@@ -1,5 +1,5 @@
 // The SDD flow, laid out on a fixed grid: backbone (run in order), utilities (call anytime), close the loop.
-// Render: neato -n2 -Tsvg docs/flow.dot -o docs/flow.svg
+// Render: neato -n2 -Tsvg docs/flow.dot -o docs/flow-grid.svg
 digraph sdd {
   pad=0.35; bgcolor="white"; splines=true; fontname="Helvetica";
   node [shape=box, style=filled, fillcolor="white", penwidth=1.5, margin="0.03,0.02", fontname="Helvetica"];
