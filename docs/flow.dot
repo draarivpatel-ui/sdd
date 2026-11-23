@@ -8,6 +8,8 @@ digraph sdd {
   node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=24, margin="0.4,0.18", penwidth=2];
   edge [fontname="Helvetica", fontsize=19, penwidth=2, color="#555555", fontcolor="#555555"];
 
+  specify [fillcolor="#cfe0ff", color="#4a74c9"];
+
   // START
   subgraph cluster_entry {
     label="🌱 START · once per idea or repo"; labeljust=l; fontsize=24; fontname="Helvetica-Bold";
@@ -29,7 +31,7 @@ digraph sdd {
     label="🚶 BACKBONE · run in order"; labeljust=l; fontsize=24; fontname="Helvetica-Bold";
     style="rounded,filled"; fillcolor="#eef4ff"; color="#4a74c9"; penwidth=2;
     node [fillcolor="#cfe0ff", color="#4a74c9"];
-    specify   [label="📝  specify"];
+    specify   [label="📝  specify", fillcolor="#cfe0ff", color="#4a74c9"];
     clarify   [label="❓  clarify"];
     uxflows   [label="🧑‍💻  ux-flows  (UI only)"];
     design    [label="📐  design"];
