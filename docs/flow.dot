@@ -1,10 +1,11 @@
 // The SDD flow: backbone (run in order), utilities (call anytime), close the loop.
 // Render: dot -Tsvg docs/flow.dot -o docs/flow.svg
 digraph sdd {
-  rankdir=LR;
-  fontname="Helvetica";
-  node  [shape=box, style="rounded,filled", fillcolor="#ffffff", fontname="Helvetica", fontsize=11];
-  edge  [fontname="Helvetica", fontsize=9];
+  rankdir=TB;
+  nodesep=0.5; ranksep=0.7;
+  fontname="Helvetica"; fontsize=18;
+  node  [shape=box, style="rounded,filled", fillcolor="#ffffff", fontname="Helvetica", fontsize=16, margin="0.25,0.12"];
+  edge  [fontname="Helvetica", fontsize=13];
 
   // --- entry skills, once per idea / repo ---
   interview   [label="interview\n(optional)"];
